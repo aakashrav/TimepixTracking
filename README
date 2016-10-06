@@ -1,5 +1,7 @@
-A set of programs written to help with detection of subatomic particles in frames returned by Timepix detectors. 
+The code here is what is allowed to be made publicly available - the rest of the code is proprietary to the Institute of Experimental and Applied Physics in Prague.
 
-You may find out more in the following links:
+The subatomic particle detectors Timepix and Medipix produce images corresponding to energy deposits created by different particles that hit them; however these images are noisy with electromagnetic noise produced by “delta rays” or “delta electrons”. The goal is to produce a series of steps that will help separate the particle “core” from the delta electrons, thus enabling various analyses by comparing the size and average energy values of the particle core vs those of the delta electrons.  
+
+You may find out more about Timepix in the following links:
 http://aladdin.utef.cvut.cz/ofat/others/Timepix/index.htm
 http://old.utef.cvut.cz/en/index.php?Ns=103&id=1000002

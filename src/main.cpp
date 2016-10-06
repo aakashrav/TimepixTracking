@@ -1,16 +1,22 @@
 #include "lattice_dbscan.h"
 
+// #define VIEW_CLUSTERS
+#define CREATEANDFLUSH
+
 #ifdef CREATEANDFLUSH
+
+std::unique_ptr<LatticeDBScan> myscan;
+
 int
 main(int argc, char * argv[])
 {
-	LatticeDBScan myscan("../output");
-	myscan.CreateProjectedPoints();
+	myscan = std::unique_ptr<LatticeDBScan>(new LatticeDBScan("../output"));
+	myscan->CreateProjectedPoints();
 	// point_set points = myscan.GetProjectedPoints();
 	// for (int i =0; i < points.size(); i++)
 	// 	std::cout << points[i][0] << "," << points[i][1] << std::endl;
-	myscan.ClusterProjectedPoints(1,4);
-	vector<point_set> clusters = myscan.GetClusters();
+	myscan->ClusterProjectedPoints(1,4);
+	vector<point_set> clusters = myscan->GetClusters();
 	std::cout << clusters.size() << std::endl;
 
 	// for (int i =0; i < clusters.size(); i++)
@@ -25,8 +31,38 @@ main(int argc, char * argv[])
 	// 	std::cout << std::endl;
 	// }
 
-	myscan.FlushClustersToFile("cluster_file.root", "11_75degStableBeam.root, clusterType=4, cluster_num = 3");
+	myscan->FlushClustersToFile("cluster_file.root", "11_75degStableBeam.root, clusterType=4, cluster_num = 3");
+	myscan->PlotClusters();
 }
+
+void
+doSomething()
+{
+	myscan = std::unique_ptr<LatticeDBScan>(new LatticeDBScan("../output"));
+	myscan->CreateProjectedPoints();
+	// point_set points = myscan.GetProjectedPoints();
+	// for (int i =0; i < points.size(); i++)
+	// 	std::cout << points[i][0] << "," << points[i][1] << std::endl;
+	myscan->ClusterProjectedPoints(1,4);
+	vector<point_set> clusters = myscan->GetClusters();
+	std::cout << clusters.size() << std::endl;
+
+	// for (int i =0; i < clusters.size(); i++)
+	// {
+	// 	point_set cur_cluster = clusters[i];
+	// 	std::cout << cur_cluster.size() << std::endl;
+	// 	std::cout << "Cluster " << i << ": ";
+	// 	for (int j=0; j < cur_cluster.size(); j++)
+	// 	{
+	// 		std::cout << "(" << cur_cluster[j][0] << "," << cur_cluster[j][1] << ")" << " ";
+	// 	}
+	// 	std::cout << std::endl;
+	// }
+
+	myscan->FlushClustersToFile("cluster_file.root", "11_75degStableBeam.root, clusterType=4, cluster_num = 3");
+	myscan->PlotClusters();
+}
+
 #endif
 
 #ifdef VIEW_CLUSTERS
@@ -69,14 +105,14 @@ main(int argc, char * argv[])
 		// Print cluster id and size
 		std::cout << "Cluster ID: " << clusterID << " Size: " << y_coordinates[0] << std::endl;
 
-		for (int k=1; k < x_coordinates[0]; k++)
-		{
-			// Print only heavy pixels (just for testing)
-			if (density[k] == 0)
-				continue;
-			std::cout << "( " << x_coordinates[k] << "," << y_coordinates[k]
-				<< " ): " << density[k] << std::endl; 
-		}
+		// for (int k=1; k < x_coordinates[0]; k++)
+		// {
+		// 	// Print only heavy pixels (just for testing)
+		// 	if (density[k] == 0)
+		// 		continue;
+		// 	std::cout << "( " << x_coordinates[k] << "," << y_coordinates[k]
+		// 		<< " ): " << density[k] << std::endl; 
+		// }
 
 		index++;
 	}
